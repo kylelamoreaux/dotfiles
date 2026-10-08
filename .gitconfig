@@ -9,6 +9,7 @@
     ci = commit
     br = branch
     df = diff
+    pf = push --force-with-lease
 
     # Interactive Local Cleanup Shortcut
     sweep = "!f() { \
@@ -50,6 +51,7 @@
 [push]
     # Automatically tracks and pushes branches to their remote counterparts
     autoSetupRemote = true
+    useForceIfIncludes = true
 
 [color]
     # Enables helpful syntax highlighting in the terminal
