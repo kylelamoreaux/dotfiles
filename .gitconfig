@@ -1,0 +1,67 @@
+[user]
+    name = Kyle Lamoreaux
+    email = kyle@musicologie.com
+
+[alias]
+    # Convenient
+    sw = switch
+    st = status -sb
+    ci = commit
+    br = branch
+    df = diff
+
+    # Interactive Local Cleanup Shortcut
+    sweep = "!f() { \
+        local default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'); \
+        echo \"Checking out $default_branch and updating...\"; \
+        git checkout $default_branch && git pull; \
+        echo \"\nScanning for merged local branches...\"; \
+        for branch in $(git branch --merged | grep -v -E \"^\\*|master|main|develop\"); do \
+            read -p \"Delete merged branch '$branch'? [y/N]: \" response; \
+            if [[ \"$response\" =~ ^[Yy]$ ]]; then \
+                git branch -d \"$branch\"; \
+            else \
+                echo \"Skipped '$branch'.\"; \
+            fi \
+        done; \
+        echo \"\nSweep complete!\"; \
+    }; f"
+    
+    # Beautiful, readable log visualization
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[core]
+    # Prevents frustrating Windows/Mac/Linux line-ending issues
+    autocrlf = input
+    # Sets a modern editor (change to 'nano', 'code --wait', or 'notepad' if preferred)
+    editor = vim
+    # Ignores files globally across ALL repositories
+    excludesfile = ~/.gitignore_global
+
+[init]
+    # Sets the modern default branch name instead of the legacy 'master'
+    defaultBranch = main
+
+[pull]
+    rebase = true
+    # Keeps your history clean by defaulting to fast-forward merges
+    ff = only
+
+[push]
+    # Automatically tracks and pushes branches to their remote counterparts
+    autoSetupRemote = true
+
+[color]
+    # Enables helpful syntax highlighting in the terminal
+    ui = auto
+
+[rerere]
+    #remembers how you resolved a merge conflict
+    enabled = true
+
+[merge]
+    conflictstyle = zdiff3
+
+[fetch]
+    # Automatically cleans up dead remote bookmarks on every fetch/pull
+    prune = true
